@@ -91,7 +91,7 @@ def main():
     parser.add_argument("--img_size", type=int, nargs=2, default=[150, 150],
                          metavar=("HEIGHT", "WIDTH"))
     parser.add_argument("--channels", type=int, choices=[1, 3], default=3)
-    parser.add_argument("--output", type=str, default="dataset/brain_tumor_dataset.npz")
+    parser.add_argument("--output", type=str, default="dataset/classification/brain_tumor_dataset.npz")
     args = parser.parse_args()
 
     dataset_dir = Path(args.dataset_dir)
