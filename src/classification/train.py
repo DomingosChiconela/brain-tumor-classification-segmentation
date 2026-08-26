@@ -1,4 +1,5 @@
 """
+
 Uso:
     python train.py --model alexnet --epochs 30
     python train.py --model alexnet --epochs 30 --batch_size 16 --lr 0.0005
@@ -6,6 +7,7 @@ Uso:
 
 import argparse
 import json
+from datetime import datetime
 from pathlib import Path
 
 import tensorflow as tf
@@ -14,13 +16,18 @@ from models.alexnet import build_alexnet
 # Quando o resnet.py existir: from models.resnet import build_resnet
 from src.utils.load_datasets import load_classification_dataset
 from src.utils.preprocessing import normalize_images, split_train_val
+from src.utils.experiment_tracking import (
+    make_run_id, get_checkpoint_run_dir, save_run_config,
+    append_to_runs_log, update_best_if_needed,
+)
 
 MODEL_REGISTRY = {
     "alexnet": build_alexnet,
     # "resnet": build_resnet,
 }
 
-CHECKPOINT_DIR = Path("checkpoints/classification")
+CHECKPOINT_DIR = Path("checkpoints/classification")   
+EXPERIMENTS_DIR = Path("experiments/classification")  
 
 
 def load_data(val_split: float = 0.15, seed: int = 42):
@@ -47,6 +54,7 @@ def train_model(
     batch_size: int = 32,
     lr: float = 1e-4,
     checkpoint_dir: Path = CHECKPOINT_DIR,
+    experiments_dir: Path = EXPERIMENTS_DIR,
 ):
     if model_name not in MODEL_REGISTRY:
         raise ValueError(f"Modelo '{model_name}' não existe. Opções: {list(MODEL_REGISTRY)}")
@@ -60,12 +68,14 @@ def train_model(
 
     model.compile(
         optimizer=tf.keras.optimizers.Adam(learning_rate=lr),
-        loss="sparse_categorical_crossentropy",  # y são inteiros, não one-hot
+        loss="sparse_categorical_crossentropy",  
         metrics=["accuracy"],
     )
 
-    checkpoint_dir.mkdir(parents=True, exist_ok=True)
-    checkpoint_path = checkpoint_dir / f"{model_name}_best_model_.keras"
+   
+    run_id = make_run_id()
+    run_dir = get_checkpoint_run_dir(checkpoint_dir, model_name, run_id)
+    checkpoint_path = run_dir / "model.keras"
 
     callbacks = [
         tf.keras.callbacks.ModelCheckpoint(
@@ -90,7 +100,36 @@ def train_model(
         callbacks=callbacks,
     )
 
-    print(f"\nMelhor modelo guardado em: {checkpoint_path}")
+    # Guardar hiperparâmetros + métricas desta execução, para nunca mais
+    # perderes o registo de "o que foi usado para chegar a esta accuracy".
+    config = {
+        "model_name": model_name,
+        "run_id": run_id,
+        "timestamp": datetime.now().isoformat(),
+        "model_kwargs": model_kwargs,
+        "epochs": epochs,
+        "batch_size": batch_size,
+        "lr": lr,
+        "best_val_accuracy": max(history.history["val_accuracy"]),
+        "best_val_loss": min(history.history["val_loss"]),
+        "checkpoint_path": str(checkpoint_path),
+    }
+    save_run_config(experiments_dir, model_name, run_id, config)
+    append_to_runs_log(experiments_dir, config)
+
+    is_new_best = update_best_if_needed(
+        checkpoint_dir, experiments_dir, model_name, checkpoint_path,
+        config["best_val_accuracy"],
+    )
+
+    print(f"\nCheckpoint desta execução: {checkpoint_path}")
+    if is_new_best:
+        print(f"Novo MELHOR modelo de sempre para '{model_name}'! "
+              f"-> {checkpoint_dir / model_name / 'best.keras'}")
+    else:
+        print(f"Esta execução não superou o melhor anterior "
+              f"(val_accuracy={config['best_val_accuracy']:.4f}).")
+
     return model, history
 
 
