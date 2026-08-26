@@ -1,0 +1,21 @@
+{
+  "model_name": "alexnet",
+  "run_id": "run_20260826_151051",
+  "timestamp": "2026-08-26T16:10:26.678481",
+  "model_kwargs": {
+    "dropout": 0.5,
+    "conv_filters": [
+      64,
+      128,
+      256,
+      256,
+      128
+    ]
+  },
+  "epochs": 2,
+  "batch_size": 32,
+  "lr": 0.0005,
+  "best_val_accuracy": 0.8016335964202881,
+  "best_val_loss": 0.5792385339736938,
+  "checkpoint_path": "checkpoints\\classification\\alexnet\\run_20260826_151051\\model.keras"
+}
