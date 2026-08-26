@@ -12,8 +12,8 @@ import tensorflow as tf
 
 from models.alexnet import build_alexnet
 # Quando o resnet.py existir: from models.resnet import build_resnet
-from utils.load_datasets import load_classification_dataset
-from utils.preprocessing import normalize_images, split_train_val
+from src.utils.load_datasets import load_classification_dataset
+from src.utils.preprocessing import normalize_images, split_train_val
 
 MODEL_REGISTRY = {
     "alexnet": build_alexnet,
@@ -65,7 +65,7 @@ def train_model(
     )
 
     checkpoint_dir.mkdir(parents=True, exist_ok=True)
-    checkpoint_path = checkpoint_dir / f"{model_name}_best_model.keras"
+    checkpoint_path = checkpoint_dir / f"{model_name}_best_model_.keras"
 
     callbacks = [
         tf.keras.callbacks.ModelCheckpoint(
