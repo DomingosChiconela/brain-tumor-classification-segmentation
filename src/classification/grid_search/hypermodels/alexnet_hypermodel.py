@@ -15,7 +15,7 @@ um resnet_hypermodel.py análogo a este.
 import keras_tuner as kt
 import tensorflow as tf
 
-from models.alexnet import build_alexnet
+from src.classification.models.alexnet import build_alexnet
 
 
 class AlexNetHyperModel(kt.HyperModel):
