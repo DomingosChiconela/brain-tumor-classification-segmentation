@@ -13,7 +13,7 @@ from pathlib import Path
 import tensorflow as tf
 
 from models.alexnet import build_alexnet
-# Quando o resnet.py existir: from models.resnet import build_resnet
+from models.resnet import create_resnet
 from src.utils.load_datasets import load_classification_dataset
 from src.utils.preprocessing import normalize_images, split_train_val
 from src.utils.experiment_tracking import (
@@ -23,7 +23,7 @@ from src.utils.experiment_tracking import (
 
 MODEL_REGISTRY = {
     "alexnet": build_alexnet,
-    # "resnet": build_resnet,
+     "resnet": create_resnet,
 }
 
 CHECKPOINT_DIR = Path("checkpoints/classification")   

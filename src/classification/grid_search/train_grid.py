@@ -30,7 +30,7 @@ import tensorflow as tf
 
 from src.classification.grid_search.hypermodels.alexnet_hypermodel import AlexNetHyperModel
 # Descomentar quando build_resnet existir:
-# from src.classification.grid_search.hypermodels.resnet_hypermodel import ResNetHyperModel
+from src.classification.grid_search.hypermodels.resnet_hypermodel import ResNetHyperModel
 from src.classification.grid_search.grid_tracking_bridge import bridge_tuner_results
 from src.utils.load_datasets import load_classification_dataset
 from src.utils.preprocessing import normalize_images, split_train_val
@@ -41,7 +41,7 @@ from src.utils.preprocessing import normalize_images, split_train_val
 # é feita.
 GRID_HYPERMODEL_REGISTRY = {
     "alexnet": AlexNetHyperModel,
-    # "resnet": ResNetHyperModel,
+    "resnet": ResNetHyperModel,
 }
 
 CHECKPOINT_DIR = Path("checkpoints/classification")
