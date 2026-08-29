@@ -6,10 +6,10 @@ from tensorflow.keras.layers import Conv2D, Flatten, Dense, Dropout,MaxPool2D
 def build_alexnet(
     input_shape: tuple = (150, 150, 3),
     num_classes: int = 4,
-    conv_filters: tuple = (32, 64, 128, 128, 64),
-    kernel_sizes: tuple = (3, 5, 3, 3, 3),
-    dense_units: tuple = (128, 64),
-    dropout: float = 0.3,
+    conv_filters: tuple = (96, 256, 384, 384, 256),
+    kernel_sizes: tuple = (11, 5, 3, 3, 3),
+    dense_units: tuple = (4096, 4096),
+    dropout: float = 0.5,
 ) -> Sequential:
     """
  
