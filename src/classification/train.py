@@ -2,9 +2,8 @@
 
 Uso:
     python train.py --model alexnet --epochs 30
-    python train.py --model alexnet --epochs 30 --batch_size 16 --lr 0.0005
+    python train.py --model resnet --epochs 30 --batch_size 16 --lr 0.0005
 """
-
 import argparse
 import json
 from datetime import datetime
@@ -12,18 +11,22 @@ from pathlib import Path
 
 import tensorflow as tf
 
-from models.alexnet import build_alexnet
-# Quando o resnet.py existir: from models.resnet import build_resnet
-from src.utils.load_datasets import load_classification_dataset
-from src.utils.preprocessing import normalize_images, split_train_val
-from src.utils.experiment_tracking import (
-    make_run_id, get_checkpoint_run_dir, save_run_config,
-    append_to_runs_log, update_best_if_needed,
+from .models.alexnet import build_alexnet
+from .models.resnet import create_resnet
+
+from ..utils.load_datasets import load_classification_dataset
+from ..utils.preprocessing import normalize_images, split_train_val
+from ..utils.experiment_tracking import (
+    make_run_id,
+    get_checkpoint_run_dir,
+    save_run_config,
+    append_to_runs_log,
+    update_best_if_needed,
 )
 
 MODEL_REGISTRY = {
     "alexnet": build_alexnet,
-    # "resnet": build_resnet,
+    "resnet": create_resnet,
 }
 
 CHECKPOINT_DIR = Path("checkpoints/classification")   

@@ -44,6 +44,7 @@ def create_resnet(input_shape: tuple = (150, 150, 3),
                   filters_list: list = [64, 128, 256, 512]) -> Model:
     """
     Cria o ResNet-34 padrão com base na arquitetura especificada.
+    64 7x7 conv + 4 stages with 3, 4, 6, 3 blocks respectively
     """
     initializer = tensorflow.keras.initializers.HeNormal()
     inputs = Input(shape=input_shape)

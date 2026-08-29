@@ -19,5 +19,17 @@
     "best_val_accuracy": 0.8016335964202881,
     "best_val_loss": 0.5792385339736938,
     "checkpoint_path": "checkpoints\\classification\\alexnet\\run_20260826_151051\\model.keras"
+  },
+  {
+    "model_name": "resnet",
+    "run_id": "run_20260829_143139",
+    "timestamp": "2026-08-29T15:33:30.184068",
+    "model_kwargs": {},
+    "epochs": 30,
+    "batch_size": 32,
+    "lr": 0.00052,
+    "best_val_accuracy": 0.9439906477928162,
+    "best_val_loss": 0.2313094288110733,
+    "checkpoint_path": "checkpoints\\classification\\resnet\\run_20260829_143139\\model.keras"
   }
 ]
