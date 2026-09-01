@@ -12,10 +12,11 @@ from pathlib import Path
 
 import tensorflow as tf
 
-from models.alexnet import build_alexnet
-from models.resnet import create_resnet
+from .models.alexnet import build_alexnet
+from .models.resnet import create_resnet
 from src.utils.load_datasets import load_classification_dataset
 from src.utils.preprocessing import normalize_images, split_train_val
+from  src.utils.paths  import build_path
 from src.utils.experiment_tracking import (
     make_run_id, get_checkpoint_run_dir, save_run_config,
     append_to_runs_log, update_best_if_needed,
@@ -26,8 +27,8 @@ MODEL_REGISTRY = {
      "resnet": create_resnet,
 }
 
-CHECKPOINT_DIR = Path("checkpoints/classification")   
-EXPERIMENTS_DIR = Path("experiments/classification")  
+CHECKPOINT_DIR = build_path("checkpoints", "classification")
+EXPERIMENTS_DIR = build_path("experiments", "classification")
 
 
 def load_data(val_split: float = 0.15, seed: int = 42):

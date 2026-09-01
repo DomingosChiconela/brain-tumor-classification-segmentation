@@ -34,6 +34,7 @@ from src.classification.grid_search.hypermodels.resnet_hypermodel import ResNetH
 from src.classification.grid_search.grid_tracking_bridge import bridge_tuner_results
 from src.utils.load_datasets import load_classification_dataset
 from src.utils.preprocessing import normalize_images, split_train_val
+from src.utils.paths import build_path
 
 # Cada modelo tem o seu próprio HyperModel, tal como MODEL_REGISTRY em
 # train.py associa cada modelo ao seu build_*. A lógica de espaço de
@@ -44,8 +45,8 @@ GRID_HYPERMODEL_REGISTRY = {
     "resnet": ResNetHyperModel,
 }
 
-CHECKPOINT_DIR = Path("checkpoints/classification")
-EXPERIMENTS_DIR = Path("experiments/classification")
+CHECKPOINT_DIR = build_path("checkpoints", "classification")
+EXPERIMENTS_DIR = build_path("experiments", "classification")
 
 
 def load_data(val_split: float = 0.15, seed: int = 42):
