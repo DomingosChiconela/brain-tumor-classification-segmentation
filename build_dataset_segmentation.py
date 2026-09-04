@@ -36,7 +36,7 @@ Produz um único ficheiro .npz comprimido com:
 Usage:
     python build_dataset_segmentation.py \
         --dataset_dir dataset/Segmentation \
-        --img_size 150 150 \
+        --img_size IMAGE_SIZE IMAGE_SIZE \
         --channels 3 \
         --test_split 0.15 \
         --output dataset/segmentation/brain_tumor_segmentation_dataset.npz
@@ -54,6 +54,7 @@ from PIL import Image
 from sklearn.model_selection import train_test_split
 
 from src.utils.image_io import VALID_EXTENSIONS, collect_image_paths, load_and_resize_image
+from  src.utils.constants import IMAGE_SIZE
 
 MASK_BINARY_THRESHOLD = 129  # confirmado via inspect_mask.py: fundo=3, tumor=255
 
@@ -121,7 +122,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset_dir", type=str, default="dataset/Segmentation",
                          help="Pasta contendo uma subpasta por tipo de tumor (Glioma, Meningioma, ...)")
-    parser.add_argument("--img_size", type=int, nargs=2, default=[150, 150],
+    parser.add_argument("--img_size", type=int, nargs=2, default=[IMAGE_SIZE, IMAGE_SIZE],
                          metavar=("HEIGHT", "WIDTH"))
     parser.add_argument("--channels", type=int, choices=[1, 3], default=3,
                          help="Canais da IMAGEM. A máscara é sempre carregada como 1 canal binário.")

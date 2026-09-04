@@ -4,6 +4,7 @@ from tensorflow.keras.layers import (
     Add, GlobalAveragePooling2D, Dense, Conv2D, 
     Input, BatchNormalization, Activation, MaxPooling2D, Dropout
 )
+from src.utils.constants import IMAGE_SIZE
 
 def resnet_block(x, filters, kernel_size=3, stride=1):
     """
@@ -38,7 +39,7 @@ def resnet_block(x, filters, kernel_size=3, stride=1):
     return x
 
 
-def create_resnet(input_shape: tuple = (150, 150, 3), 
+def create_resnet(input_shape: tuple = (IMAGE_SIZE, IMAGE_SIZE, 3), 
                   num_classes: int = 4, 
                   num_blocks_list: list = [3, 4, 6, 3],
                   filters_list: list = [64, 128, 256, 512]) -> Model:

@@ -23,7 +23,7 @@ where the class label for each image is implicit in its parent folder name
 Usage:
     python build_dataset.py \
         --dataset_dir dataset/classification \
-        --img_size 150 150 \
+        --img_size 224 224 \
         --channels 3 \
         --output brain_tumor_dataset.npz
 
@@ -36,6 +36,7 @@ import argparse
 import numpy as np
 from pathlib import Path
 from PIL import Image
+from utils.constants import IMAGE_SIZE
 
 VALID_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff"}
 
@@ -88,7 +89,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset_dir", type=str, default="dataset/classification",
                          help="Path containing Training/ and Testing/ folders")
-    parser.add_argument("--img_size", type=int, nargs=2, default=[150, 150],
+    parser.add_argument("--img_size", type=int, nargs=2, default=[IMAGE_SIZE, IMAGE_SIZE],
                          metavar=("HEIGHT", "WIDTH"))
     parser.add_argument("--channels", type=int, choices=[1, 3], default=3)
     parser.add_argument("--output", type=str, default="dataset/classification/brain_tumor_dataset.npz")

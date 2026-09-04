@@ -1,10 +1,11 @@
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, Flatten, Dense, Dropout,MaxPool2D
+from  src.utils.constants import IMAGE_SIZE
 
 
 
 def build_alexnet(
-    input_shape: tuple = (150, 150, 3),
+    input_shape: tuple = (IMAGE_SIZE, IMAGE_SIZE, 3),
     num_classes: int = 4,
     conv_filters: tuple = (96, 256, 384, 384, 256),
     kernel_sizes: tuple = (11, 5, 3, 3, 3),
@@ -17,7 +18,7 @@ def build_alexnet(
     ----------
     input_shape : tuple
         Formato da imagem de entrada (altura, largura, canais).
-        Por omissão (150, 150, 3), alinhado com build_dataset.py.
+        Por omissão (IMAGE_SIZE, IMAGE_SIZE, 3), alinhado com build_dataset.py.
     num_classes : int
         Número de classes de saída. Por omissão 4
         (glioma, meningioma, notumor, pituitary).
