@@ -1,4 +1,4 @@
 from typing import Final
 
 
-IMAGE_SIZE: Final = 160
+IMAGE_SIZE: Final = 150
