@@ -36,7 +36,7 @@ import argparse
 import numpy as np
 from pathlib import Path
 from PIL import Image
-from utils.constants import IMAGE_SIZE
+from src.utils.constants import IMAGE_SIZE
 
 VALID_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff"}
 

@@ -24,8 +24,8 @@ from sklearn.metrics import classification_report, confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from utils.load_datasets import load_classification_dataset
-from utils.preprocessing import normalize_images
+from src.utils.load_datasets import load_classification_dataset
+from src.utils.preprocessing import normalize_images
 
 REPORTS_DIR = Path("reports")
 
