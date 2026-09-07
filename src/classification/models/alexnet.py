@@ -1,5 +1,5 @@
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, Flatten, Dense, Dropout,MaxPool2D
+from tensorflow.keras.layers import Conv2D, Flatten, Dense, Dropout, GlobalAveragePooling2D,MaxPool2D
 from  src.utils.constants import IMAGE_SIZE
 
 
@@ -9,7 +9,7 @@ def build_alexnet(
     num_classes: int = 4,
     conv_filters: tuple = (96, 256, 384, 384, 256),
     kernel_sizes: tuple = (11, 5, 3, 3, 3),
-    dense_units: tuple = (4096, 4096),
+    dense_units: tuple = (512, 128),
     dropout: float = 0.5,
 ) -> Sequential:
     """
@@ -70,7 +70,7 @@ def build_alexnet(
     model.add(MaxPool2D(pool_size=(2, 2), strides=(2, 2)))
  
     # Classificador (fully connected)
-    model.add(Flatten())
+    model.add(GlobalAveragePooling2D())
     model.add(Dense(dense_units[0], activation="relu"))
     model.add(Dropout(dropout))
     model.add(Dense(dense_units[1], activation="relu"))
