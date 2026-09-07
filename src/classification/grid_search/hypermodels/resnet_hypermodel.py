@@ -56,6 +56,11 @@ class ResNetHyperModel(kt.HyperModel):
         self.lr_choices = lr_choices
 
     def build(self, hp):
+        # Ver comentario equivalente em alexnet_hypermodel.py -- liberta
+        # o grafo do trial anterior antes de construir um modelo novo,
+        # evitando corrupcao de memoria da GPU ao longo de varios trials.
+        tf.keras.backend.clear_session()
+
         model_kwargs = {}
 
         # stage_config: par (num_blocks_list, filters_list) escolhido

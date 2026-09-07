@@ -54,6 +54,15 @@ class AlexNetHyperModel(kt.HyperModel):
         self.lr_choices = lr_choices
 
     def build(self, hp):
+        # Liberta o grafo/tensores do trial ANTERIOR antes de construir
+        # um modelo novo. Sem isto, o keras_tuner acumula memoria de GPU
+        # a cada trial (o TensorFlow nao liberta automaticamente), o que
+        # ao fim de varios trials causa corrupcao no BFC allocator da GPU
+        # (erro tipico: "Dst tensor is not initialized" seguido de
+        # "Check failed: c->in_use()..."). E um problema conhecido do
+        # keras_tuner em GPU, nao um bug do teu codigo.
+        tf.keras.backend.clear_session()
+
         model_kwargs = {}
 
         for param_name, values in self.search_space.items():

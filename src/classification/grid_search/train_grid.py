@@ -28,8 +28,20 @@ from pathlib import Path
 import keras_tuner as kt
 import tensorflow as tf
 
+# Evita que o TensorFlow reserve toda a memoria da GPU de uma vez. Com
+# memory_growth desactivado (comportamento por omissao), a GPU e
+# ocupada de forma agressiva logo no inicio, o que agrava a
+# fragmentacao/corrupcao de memoria em execucoes longas como grid
+# search (varios trials, cada um construindo um modelo novo). Tem de
+# ser chamado ANTES de qualquer operacao de GPU -- por isso fica logo
+# a seguir aos imports, antes de qualquer outro codigo do projecto.
+for gpu in tf.config.list_physical_devices("GPU"):
+    try:
+        tf.config.experimental.set_memory_growth(gpu, True)
+    except RuntimeError as e:
+        print(f"[aviso] nao foi possivel activar memory_growth em {gpu}: {e}")
+
 from src.classification.grid_search.hypermodels.alexnet_hypermodel import AlexNetHyperModel
-# Descomentar quando build_resnet existir:
 from src.classification.grid_search.hypermodels.resnet_hypermodel import ResNetHyperModel
 from src.classification.grid_search.grid_tracking_bridge import bridge_tuner_results
 from src.utils.load_datasets import load_classification_dataset
